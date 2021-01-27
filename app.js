@@ -10,7 +10,7 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-
+const teamMembers = [];
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
@@ -18,6 +18,152 @@ const render = require("./lib/htmlRenderer");
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
 
+const startInput = () => {
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        name: "employee",
+        message: "What kind of employee would you like to enter?",
+        choices: ["Manager", "Engineer", "Intern"],
+      },
+    ])
+    .then((response) => {
+      if (response.employee === "Manager") {
+        managerInfo();
+      } else if (response.employee === "Engineer") {
+        engineerInfo();
+      } else {
+        internInfo();
+      }
+    });
+};
+
+const managerInfo = () => {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "manName",
+        message: "What is the name of you Manager?",
+      },
+      {
+        type: "input",
+        name: "manId",
+        message: "Give your Manager an ID number.",
+      },
+      {
+        type: "input",
+        name: "manEmail",
+        message: "What is the Manager's email?",
+      },
+      {
+        type: "input",
+        name: "officeNumber",
+        message: "What is the office number of you Manager?",
+      },
+    ])
+    .then((answers) => {
+      const manager = new Manager(
+        answers.manName,
+        answers.manId,
+        answers.manEmail,
+        answers.officeNumber
+      );
+      teamMembers.push(manager);
+      option();
+    });
+};
+
+const engineerInfo = () => {
+  return inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "engineerName",
+        message: "What is your Engineer's name?",
+      },
+      {
+        type: "input",
+        name: "email",
+        message: "Please give your Engineer and ID number!",
+      },
+      {
+        type: "input",
+        name: "github",
+        message: "What is the gitHub username of your Engineer?",
+      },
+    ])
+    .then((answers) => {
+      const engineer = new Engineer(
+        answers.name,
+        answers.id,
+        answers.email,
+        answers.github
+      );
+      teamMembers.push(engineer);
+      option();
+    });
+};
+
+const internInfo = () => {
+  return inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "internName",
+        message: "What is your Intern's name?",
+      },
+      {
+        type: "input",
+        name: "id",
+        message: "Please give you Intern an ID number",
+      },
+      {
+        type: "input",
+        name: "email",
+        message: "What is your Intern's email?",
+      },
+      {
+        type: "input",
+        name: "school",
+        message: "What school did your Intern attend?",
+      },
+    ])
+    .then((answers) => {
+      const intern = new Intern(
+        answers.internName,
+        answers.id,
+        answers.email,
+        answers.school
+      );
+      teamMembers.push(intern);
+      option();
+    });
+};
+
+const option = () => {
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        name: "finish",
+        message: "Would you like to add another Employee?",
+        choices: ["Yes", "No"],
+      },
+    ])
+    .then((response) => {
+      if (response.finish === "Yes") {
+        console.log("Choose another employee");
+        startInput();
+      } else {
+        console.log("Thank you for using Team Profile Generator!");
+        console.log(teamMembers);
+      }
+    });
+};
+
+startInput();
 // After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the
 // `output` folder. You can use the variable `outputPath` above target this location.
