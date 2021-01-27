@@ -10,13 +10,6 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-//Function to create file
-const makeFile = (name, input) => {
-  fs.writeFile(name, input, (err) => {
-    if (err) throw err;
-  });
-};
-
 //Array to store team member profiles
 const teamMembers = [];
 
@@ -176,7 +169,9 @@ const option = () => {
         getInput();
       } else {
         let output = render(teamMembers);
-        makeFile("team.html", output);
+        fs.writeFile("team.html", output, (err) => {
+          if (err) throw err;
+        });
       }
     });
 };
