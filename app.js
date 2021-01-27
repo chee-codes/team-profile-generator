@@ -10,15 +10,13 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+//Array to store team member profiles
 const teamMembers = [];
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
 
-// After the user has input all employees desired, call the `render` function (required
-// above) and pass in an array containing all employee objects; the `render` function will
-// generate and return a block of HTML including templated divs for each employee!
+//Intitial Prompt
+//========================================
 
-const startInput = () => {
+const getInput = () => {
   inquirer
     .prompt([
       {
@@ -39,13 +37,16 @@ const startInput = () => {
     });
 };
 
+//Manager Prompt
+//===================================
+
 const managerInfo = () => {
   inquirer
     .prompt([
       {
         type: "input",
         name: "manName",
-        message: "What is the name of you Manager?",
+        message: "What is your Manager's name?",
       },
       {
         type: "input",
@@ -60,7 +61,7 @@ const managerInfo = () => {
       {
         type: "input",
         name: "officeNumber",
-        message: "What is the office number of you Manager?",
+        message: "What is the office number of your Manager?",
       },
     ])
     .then((answers) => {
@@ -75,18 +76,26 @@ const managerInfo = () => {
     });
 };
 
+//Engineer Prompt
+//====================================
+
 const engineerInfo = () => {
   return inquirer
     .prompt([
       {
         type: "input",
-        name: "engineerName",
+        name: "engName",
         message: "What is your Engineer's name?",
       },
       {
         type: "input",
-        name: "email",
-        message: "Please give your Engineer and ID number!",
+        name: "engId",
+        message: "Please give your Engineer an ID number!",
+      },
+      {
+        type: "input",
+        name: "engEmail",
+        message: "What is your Engineer's email?",
       },
       {
         type: "input",
@@ -96,9 +105,9 @@ const engineerInfo = () => {
     ])
     .then((answers) => {
       const engineer = new Engineer(
-        answers.name,
-        answers.id,
-        answers.email,
+        answers.engName,
+        answers.engId,
+        answers.engEmail,
         answers.github
       );
       teamMembers.push(engineer);
@@ -106,6 +115,8 @@ const engineerInfo = () => {
     });
 };
 
+//Intern Prompt
+//=============================
 const internInfo = () => {
   return inquirer
     .prompt([
@@ -116,12 +127,12 @@ const internInfo = () => {
       },
       {
         type: "input",
-        name: "id",
-        message: "Please give you Intern an ID number",
+        name: "internId",
+        message: "Please give your Intern an ID number",
       },
       {
         type: "input",
-        name: "email",
+        name: "internEmail",
         message: "What is your Intern's email?",
       },
       {
@@ -133,8 +144,8 @@ const internInfo = () => {
     .then((answers) => {
       const intern = new Intern(
         answers.internName,
-        answers.id,
-        answers.email,
+        answers.internId,
+        answers.internEmail,
         answers.school
       );
       teamMembers.push(intern);
@@ -163,7 +174,14 @@ const option = () => {
     });
 };
 
-startInput();
+getInput();
+
+// Write code to use inquirer to gather information about the development team members,
+// and to create objects for each team member (using the correct classes as blueprints!)
+
+// After the user has input all employees desired, call the `render` function (required
+// above) and pass in an array containing all employee objects; the `render` function will
+// generate and return a block of HTML including templated divs for each employee!
 // After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the
 // `output` folder. You can use the variable `outputPath` above target this location.
