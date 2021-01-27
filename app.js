@@ -10,6 +10,13 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+//Function to create file
+const makeFile = (name, input) => {
+  fs.writeFile(name, input, (err) => {
+    if (err) throw err;
+  });
+};
+
 //Array to store team member profiles
 const teamMembers = [];
 
@@ -165,11 +172,11 @@ const option = () => {
     ])
     .then((response) => {
       if (response.finish === "Yes") {
-        console.log("Choose another employee");
-        startInput();
+        console.log("\nChoose another employee");
+        getInput();
       } else {
-        console.log("Thank you for using Team Profile Generator!");
-        console.log(teamMembers);
+        let output = render(teamMembers);
+        makeFile("team.html", output);
       }
     });
 };
