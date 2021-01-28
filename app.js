@@ -153,6 +153,9 @@ const internInfo = () => {
     });
 };
 
+//Final Option Prompt
+//===========================================
+
 const option = () => {
   inquirer
     .prompt([
@@ -165,11 +168,12 @@ const option = () => {
     ])
     .then((response) => {
       if (response.finish === "Yes") {
-        console.log("\nChoose another employee");
+        console.log("\n Choose another employee");
         getInput();
       } else {
+        console.log("\nYour Team Profile has been generated.\n");
         let output = render(teamMembers);
-        fs.writeFile("index.html", output, (err) => {
+        fs.writeFile("team.html", output, (err) => {
           if (err) throw err;
         });
       }
