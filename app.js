@@ -173,7 +173,7 @@ const option = () => {
       } else {
         console.log("\nYour Team Profile has been generated.\n");
         let output = render(teamMembers);
-        fs.writeFile("team.html", output, (err) => {
+        fs.writeFile("index.html", output, (err) => {
           if (err) throw err;
         });
       }
